@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/test/people")
+@RequestMapping("/api/people")
 public class PersonController {
     private static final int MAX_TEST_DATA_SIZE = 1000000;
     

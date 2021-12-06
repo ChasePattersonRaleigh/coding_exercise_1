@@ -5,18 +5,19 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Provides business logic for handling people objects. 
+ * In this case, it's only for generating test data.
+ */
 @Slf4j
 @Service
 public class PersonService {
     private static final int MAX_PEOPLE_PER_SAVE = 1000;
-    // private static final int TOTAL_PEOPLE_TO_GENERATE = 1000000;
+    private static final int MAX_TOTAL_PEOPLE_TO_GENERATE = 1000000;
     
 
     @Autowired
@@ -29,8 +30,14 @@ public class PersonService {
      * 
      * @param size Total number of users to create.
      * @return
+     * @throws IllegalArgumentException if the size is larger than 1 million.
      */
     public int generateData(int size) {
+
+        if (size > MAX_TOTAL_PEOPLE_TO_GENERATE) { 
+            throw new IllegalArgumentException(String.format("generateData API requested with size of %s. Max allowed is %s.", size, MAX_TOTAL_PEOPLE_TO_GENERATE));
+        }
+        
         int numberOfPeopleSaved = 0;
         List<Person> currentPeople;
         
@@ -74,10 +81,4 @@ public class PersonService {
         
         return numberOfPeopleSaved;
     }
-
-
-    // public List<Person> getAllPeople(Integer pageNo, Integer pageSize, String sortBy) { 
-    //     Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(new String []{"firstName"}));
-    //     repository.find
-    // }
 }
