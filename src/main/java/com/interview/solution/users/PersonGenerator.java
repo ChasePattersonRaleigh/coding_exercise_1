@@ -14,14 +14,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Instancse of this class provide the test data.
+ * Instances of this class provide the test data.
+ * 
+ * It will return a maximum of 1 million users that are hardcoded in a JSON file.
  * 
  */
 public class PersonGenerator implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(PersonGenerator.class);
+
+    // Stub data
     private static final String FAKE_ADDRESS_NUM = "1234 ";
     private static final String FAKE_CITY = "Raleigh";
 
+    // fields for people - this is how the data is 
+    // defined in the sample JSON.
     private static final String AGE_FIELD = "age";
     private static final String FIRST_NAME_FIELD = "first";
     private static final String LAST_NAME_FIELD = "last";
@@ -33,7 +39,9 @@ public class PersonGenerator implements AutoCloseable {
     private InputStream is; 
 
 
-
+    /**
+     * Sets up the parser by providing it a ZipInputStream.
+     */
     public PersonGenerator() { 
         try { 
             this.is = getClass().getResourceAsStream("/example_people.zip");
@@ -48,6 +56,11 @@ public class PersonGenerator implements AutoCloseable {
        
     }
 
+    /**
+     * Retrieves the next Person. Returns Optional.empty() when there 
+     * are no more. 
+     * @return
+     */
     public Optional<Person> getNextPerson() {
         Person person = new Person();
         try {
